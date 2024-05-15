@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Recommendation</title>
+  </head>
+  <body>
+    <h1>Movie Recommendation</h1>
+    <div>
+      <label for="section">Choose a section:</label>
+      <select id="section" onchange="toggleSection()">
+        <option value="A">Content Based Filtering</option>
+        <option value="B">Collaborative Filtering</option>
+        <option value="C">Hybrid Recommendation</option>
+      </select>
+    </div>
+
+    <div id="sectionA" style="display: none">
+      <h2>Content Based Filtering</h2>
+      <form method="post" id="movieForm" action="/recommended_content/">
+        <label for="title">Enter a movie title:</label><br />
+        <input type="text" id="title" name="title" required /><br /><br />
+        <button type="submit">Recommend</button>
+      </form>
+      <div id="recommendations_content"></div>
+    </div>
+
+    <div id="sectionB" style="display: none">
+      <h2>Collaborative Filtering</h2>
+      <form method="post" id="movieForm" action="/recommended_collaborative/">
+        <label for="user_id">Enter your user_id:</label><br />
+        <input type="text" id="user_id" name="user_id" required /><br /><br />
+        <button type="submit">Recommend</button>
+      </form>
+      <div id="recommendations_collaborative"></div>
+    </div>
+
+    <div id="sectionC" style="display: none">
+      <h2>Hybrid Recommendation</h2>
+      <form method="post" id="movieForm" action="/recommended_hybrid/">
+        <label for="user_id">Enter your user_id:</label><br />
+        <input type="text" id="user_id" name="user_id" required /><br /><br />
+        <label for="title">Enter a movie name:</label><br />
+        <input type="text" id="title" name="title" required /><br /><br />
+        <button type="submit">Recommend</button>
+      </form>
+      <div id="recommendations_hybrid"></div>
+    </div>
+
+    <div id="recommendations">
+      <p>Here are the recommendations:</p>
+      <ul>
+        {% for movie in recommended_movies %}
+        <li>{{ movie }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <script>
+      function toggleSection() {
+        var selectedSection = document.getElementById("section").value;
+        document.getElementById("sectionA").style.display =
+          selectedSection === "A" ? "block" : "none";
+        document.getElementById("sectionB").style.display =
+          selectedSection === "B" ? "block" : "none";
+        document.getElementById("sectionC").style.display =
+          selectedSection === "C" ? "block" : "none";
+      }
+    </script>
+  </body>
+</html>
